@@ -1,0 +1,1548 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Monster DEX</title>
+<base href="https://monsternode.net/dex/">
+	<!--meta name="viewport" content="width=device-width, initial-scale=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=0, maximum-scale=0, user-scalable=no"-->
+    <link data-n-head="true" rel="icon" type="image/x-icon" href="/favicon.png">
+    
+<script src="/jquery.min.js"></script>
+<script src="/winblur.js"></script>
+<script src="/clipboard/dist/clipboard.min.js"></script>
+<script src="/Chart.bundle.min.js"></script>
+<script type="text/javascript" src="/__jquery.tablesorter/jquery.tablesorter.js"></script>
+
+<script src="/dex/main.js"></script>
+<script src="/dex/fingerprint2.js"></script>
+
+<style type="text/css">
+@font-face{
+font-family:Ubuntu;
+font-style:normal;
+font-weight:400;
+src:local("Ubuntu Regular"),
+local("Ubuntu-Regular"),
+url(../fonts/ubuntu-v11-cyrillic_latin-regular.4f9cb44.woff2) format("woff2"),
+url(../fonts/ubuntu-v11-cyrillic_latin-regular.b3d1002.woff) format("woff")
+}
+@font-face{
+font-family:Ubuntu;
+font-style:normal;
+font-weight:700;
+src:local("Ubuntu Bold"),
+local("Ubuntu-Bold"),
+url(../fonts/ubuntu-v11-cyrillic_latin-700.1878bde.woff2) format("woff2"),
+url(../fonts/ubuntu-v11-cyrillic_latin-700.0f3b6eb.woff) format("woff")}*,
+:after,:before{box-sizing:border-box
+}
+
+body{
+    background: linear-gradient(180deg,#2c2c2c 64px,transparent 0) no-repeat,linear-gradient(0deg,#3c3c3c 95.6px,transparent 0) no-repeat,#f6f6f6;
+    color: #333;
+    font-family: Ubuntu,SimSun,PingFang SC,sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.4;
+    margin: 0;    
+}
+html {
+    -moz-osx-font-smoothing: grayscale;
+    -ms-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -webkit-overflow-scrolling: touch;
+    -webkit-text-size-adjust: 100%;
+    line-height: 1.15;
+    overflow-y: scroll;
+}
+article, aside, footer, header, hgroup, main, nav, section {
+    display: block;
+}
+.clear {
+	float:none;
+	clear:both;
+	width:100%;
+	font-size:1px;
+}
+.main-wrap {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+}
+
+.head {
+    background: #2c2c2c;
+    box-shadow: 0 2px 5px rgba(0,0,0,.1);
+    color: #fff;
+    width: 100%;
+    min-width: 1200px;
+}
+.header__logo-image {
+    font-size: 0;
+    margin-left: 2px;
+    margin-right: 20px;
+    float: left;
+}
+.header__logo-text {
+    font-size: 26px;
+    line-height: 32px;
+    white-space: nowrap;
+}
+.header__container, .header__logo {
+    align-items: center;
+    display: flex;
+}
+.no-link {
+    text-decoration: none;
+}
+.link, .link:focus, .link:hover, a, a:focus, a:hover {
+    outline: 0;
+}
+.link, a {
+    -webkit-text-decoration-skip: ink;
+    color: inherit;
+    text-decoration: none;
+    text-decoration-skip: ink;
+    transition: .1s;
+}
+.header__container {
+    height: 64px;
+    justify-content: space-between;
+}
+.u-container--medium {
+    max-width: 988px;
+}
+
+.u-container {
+    padding: 0 24px;
+}
+.u-container {
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+
+
+.main-content {
+    flex-grow: 2;
+    width: 100%;
+}
+details, main {
+    display: block;
+}
+.auth {
+    background: url(/dex/i/auth.svg) 50% 0 no-repeat,linear-gradient(180deg,#161616,#313131);
+    background-blend-mode: soft-light;
+    color: #fff;
+}
+.u-section {
+    padding-bottom: 56px;
+    padding-top: 56px;
+}
+.u-section {
+    padding-bottom: 40px;
+    padding-top: 40px;
+}
+
+.box_window{
+  position:fixed;
+  z-index:1199;
+  background: #fff;
+  display:none;
+  padding:20px;
+  -moz-border-radius: 10px; 
+  border-radius: 10px; 
+  	top: 50px;
+    bottom: 50px;
+    
+    width:900px; /*Ширина блока*/
+    margin:0 auto;
+    left:50%;
+    margin-left:-450px; /*Смещаем блок на половину всей ширины влево*/
+    
+    box-shadow: 0 2px 5px rgba(0,0,0,.7);
+}
+.box_window_in {
+  overflow-y:scroll;
+  position:absolute;
+  	top: 20px;
+    right: 20px;
+    bottom: 20px;
+    left: 20px;
+    margin: auto;
+}
+.box_title {
+  position: absolute;
+  left: 0px;
+  top: -30px;
+  left: 25px;
+  color: #000;
+  text-shadow: 1px 1px 1px #aeaeae!important;
+  font-weight: bold;
+  font-size: 18px;
+  z-index: 9999;
+  background: url(/dex/i/copy.svg) center right no-repeat;
+  background-size: 18px 18px;
+  padding-right: 25px;
+  cursor: pointer;
+}
+.bw_close{
+  position:absolute;
+  top: -25px;
+  font-size: 10px;
+  color: #fff;
+  right:0px;
+  cursor:pointer;
+  z-index: 2;
+}
+.mask{
+  position:fixed;
+  background:rgba(0, 0, 0, 0.38);
+  display:none;
+  height:100%;
+  width: 100%;
+  z-index:10;
+}
+.to_blur.blur {
+ -webkit-filter: blur(5px);
+ -moz-filter: blur(5px);
+ -o-filter: blur(5px);
+ -ms-filter: blur(5px);
+ filter: blur(5px);
+}
+
+
+.main-content {
+    flex-grow: 2;
+    width: 100%;
+}
+details, main {
+    display: block;
+}
+.auth {
+    background: url(/dex/i/bg.svg) 50% 0 no-repeat,linear-gradient(180deg,#161616,#313131);
+    background-blend-mode: soft-light;
+    color: #fff;
+}
+.u-section {
+    padding-bottom: 56px;
+    padding-top: 56px;
+}
+.u-section {
+    padding-bottom: 40px;
+    padding-top: 40px;
+}
+
+.u-grid--vertical-margin {
+    margin-top: -24px;
+}
+.u-grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -24px;
+}
+.u-grid--vertical-margin>.u-cell {
+    padding-top: 24px;
+}
+.u-grid>.u-cell {
+    padding-left: 24px;
+}
+.u-cell {
+    width: 100%;
+}
+.u-cell--medium--1-2 {
+    width: 50%;
+}
+
+.panel {
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0,0,0,.1);
+    color: #333;
+}
+.panel__header {
+    padding: 18px 24px;
+}
+.panel__header, .panel__section {
+    border-bottom: 1px solid #e5e5e5;
+    padding: 24px;
+}
+.panel__header-title {
+    align-items: center;
+    display: flex;
+    font: inherit;
+    font-weight: 700;
+    margin: 0;
+    text-transform: uppercase;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: Ubuntu,SimSun,PingFang SC,sans-serif;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0;
+}
+h1 {
+    font-size: 2em;
+}
+.panel__header-title-icon {
+    margin: -8px 8px -8px -8px;
+}
+.panel__header, .panel__section {
+    border-bottom: 1px solid #e5e5e5;
+    padding: 24px;
+}
+.u-grid--vertical-margin--small {
+    margin-top: -16px;
+}
+.u-grid--small {
+    margin-left: -16px;
+}
+.u-grid--vertical-margin--small>.u-cell {
+    padding-top: 16px;
+}
+.u-grid--small>.u-cell {
+    padding-left: 16px;
+}
+.u-grid>.u-cell {
+    padding-left: 24px;
+}
+.u-cell--small--1-2 {
+    width: 50%;
+}
+
+.form-field {
+    cursor: pointer;
+    display: block;
+    font-weight: 400;
+    padding-top: 12px;
+    pointer-events: none;
+    position: relative;
+}
+.form-field__input {
+    -webkit-text-fill-color: currentcolor;
+    background: 0 0;
+    border: none;
+    border-bottom: 1px solid #a1a3a4;
+    border-radius: 0;
+    color: inherit;
+    display: block;
+    font-size: 16px;
+    line-height: 22px;
+    opacity: 1;
+    padding: 4px 0;
+    pointer-events: auto;
+    transition: .15s;
+    width: 100%;
+}
+input, select, textarea {
+    caret-color: #d15c22;
+    color: #333;
+    font: inherit;
+    outline: 0;
+}
+input {
+    overflow: visible;
+    vertical-align: middle;
+}
+button, input, optgroup, select, textarea {
+    margin: 0;
+}
+.form-field__label {
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-transform-origin: 0 0;
+    -webkit-user-select: none;
+    color: #858585;
+    font-size: 16px;
+    left: 0;
+    line-height: 20px;
+    position: absolute;
+    top: -11px;
+    transform-origin: 0 0;
+    transition: .15s;
+    user-select: none;
+    white-space: nowrap;
+}
+.button.is-disabled, .button[disabled] {
+    cursor: default;
+}
+.button {
+    align-items: center;
+    border: 2px solid transparent;
+    color: #333;
+    display: inline-flex;
+    font-family: Ubuntu,SimSun,PingFang SC,sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    justify-content: center;
+    line-height: 18px;
+    overflow: hidden;
+    padding: 10px 26px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    transition: .1s;
+}
+button {
+    cursor: pointer;
+    outline: 0;
+    overflow: visible;
+    text-transform: none;
+}
+.button--main {
+    background: #d15c22;
+    color: #fff;
+}
+
+*, :after, :before {
+    box-sizing: border-box;
+}
+
+.footer {
+    background: #3c3c3c;
+    color: #fff;
+    padding: 38px 0;
+    width: 100%;
+    min-width: 1200px;
+}
+.footer__container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.footer__container {
+    align-items: center;
+    justify-content: space-between;
+}
+
+.footer__logo {
+    margin-top: -8px;
+}
+.footer__logo {
+    display: block;
+    width: 76px;
+}
+.footer__menu {
+    margin-top: 20px;
+    text-align: center;
+    width: 100%;
+}
+.footer__menu {
+    margin-top: 0;
+    width: auto;
+}
+.footer__menu-item {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 700;
+}
+.footer__menu-item:after {
+    content: "\2005|\2005";
+    margin: 0 3px;
+}
+.footer__menu-item:last-child:after {
+    content: none;
+}
+.link, .link:focus, .link:hover, a, a:focus, a:hover {
+    outline: 0;
+}
+.link, a {
+    -webkit-text-decoration-skip: ink;
+    color: inherit;
+    text-decoration: none;
+    text-decoration-skip: ink;
+    transition: .1s;
+}
+
+.header__user {
+    align-items: center;
+    display: flex;
+}
+.button--ghost-white {
+    background: 0 0;
+    border-color: #fff;
+    color: #fff;
+    border-radius:6px;
+}
+.header__user-logout {
+    font-size: 0;
+    margin-left: 16px;
+}
+.u-semantic-button {
+    background: 0 0;
+    border: none;
+    border-radius: 0;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    padding: 0;
+    text-align: inherit;
+}
+[type=button], [type=reset], [type=submit], button {
+    -webkit-appearance: button;
+}
+button {
+    cursor: pointer;
+    outline: 0;
+    overflow: visible;
+    text-transform: none;
+    border-radius:6px;
+}
+.main-content--grid {
+    display: flex;
+}
+.main-content {
+    flex-grow: 2;
+    width: 100%;
+}
+.u-container--large {
+    min-width: 1200px;
+}
+.u-container-margin {
+    margin: 0 auto;
+}
+.main-content__aside {
+    box-shadow: 0 4px 8px rgba(0,0,0,.1);
+    flex-shrink: 0;
+    overflow: visible;
+    position: static;
+    width: 40%;
+}
+.main-content__aside {
+    background: #fff;
+    min-height: calc(100% - 64px);
+    overflow: auto;
+    /*position: absolute;*/
+    /*top: 64px;*/
+    z-index: 1;
+}
+.main-content__aside-section {
+    padding-bottom: 24px;
+    padding-top: 24px;
+}
+.u-grid--vertical-margin--small {
+    margin-top: -16px;
+}
+.u-grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -24px;
+}
+.u-grid--vertical-margin--small>.u-cell {
+    padding-top: 16px;
+}
+ul, menu, dir {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 0px;
+}
+.no-list {
+    margin: 0;
+    padding: 0;
+}
+.no-list li {
+    list-style: none;
+}
+.main-content__main {
+    flex-grow: 2;
+    width: 50%;
+}
+
+details, main {
+    display: block;
+}
+.menu__link {
+    align-items: center;
+    display: inline-flex;
+    font-weight: 700;
+    text-transform: uppercase;
+    vertical-align: top;
+}
+.menu__icon {
+    flex-shrink: 0;
+    height: 16px;
+    margin-right: 7px;
+    width: 16px;
+}
+.menu__item {
+	padding: 10px 0;
+	border-bottom: 1px #f0f0f0 solid;
+}
+
+#coins tr th, #coins tr td, .tbl tr th, .tbl tr td {
+	font-size: 12px;
+	border-left:1px #e5e5e5 solid; 
+}
+#coins tr th, .tbl tr th {
+	padding-bottom: 10px;
+	font-weight: bold;
+	border-bottom:1px solid #e5e5e5;
+	text-align: center;
+}
+#coins th.header, .tbl th.header, th.sml { 
+    background-image: url(/i/arrows.svg); 
+    cursor: pointer; 
+    font-weight: bold; 
+    background-repeat: no-repeat; 
+    background-position: 5px center; 
+    padding-left: 23px;
+    padding-top: 7px;
+    text-align: left;
+} 
+#coins th.headerSortUp, .tbl th.headerSortUp { 
+    background-image: url(/i/arrow_up.svg); 
+    color: #000; 
+} 
+#coins th.headerSortDown, .tbl th.headerSortDown { 
+    background-image: url(/i/arrow_down.svg); 
+    color: #000; 
+} 
+#coins tr th, .tbl tr th {
+	color: #666;
+}
+#coins tr td, .tbl tr td {
+	padding:10px 7px;
+	text-align: left;
+}
+.nobrdl {
+	border-left: none!important;
+}
+.even {
+	background-color: #f0f0f0;
+}
+.odd {
+	background-color: #fff;
+}
+
+.active {
+	background-color: #cf5c2c!important;
+	color:#fff;
+	cursor: pointer;
+}
+.active td, .active td small, .active td span, .selected td span {
+	color:#fff!important;
+}
+.coinKey {
+	font-weight:bold;
+}
+.coinName {
+	font-weight: bold;
+	padding: 30px 0 0 30px;
+	font-size: 16px;
+	color: #2c2c2c;
+}
+.coinInfo {
+	padding-top: 10px;
+	padding-left: 30px;
+	font-size: smaller;
+	color: #2c2c2c;
+}
+.cinfItem {
+	
+}
+.selected {
+	background-color: #cf5c2c!important;
+	color:#fff;
+}
+.actItem {
+	padding: 5px 5px 5px 0;
+}
+.actItem span {
+float: left;
+padding: 0 10px;
+min-width: 18%;
+text-align: left;
+}
+.actItem span.buy_act, .actItem span.sell_act {
+	width: 50px!important;
+	min-width: 50px;
+	text-align: center;
+}
+.buy_act {
+	color:green;
+} 
+
+.sell_act {
+	color: red;
+}
+.smallTbl tr th, .smallTbl tr td {
+	font-size: 10px;
+}
+#coins th.sml, .tbl th.sml, .sml {
+	font-size: 10px!important;
+	background-image: none;
+	padding-left: 5px;
+	padding-right: 5px;
+	text-align: center;
+}
+.filter {
+	/*width: 50%;*/
+	float: left;
+	padding-left: 25px;
+}
+.butn {
+	border: 1px #f0f0f0 solid;
+	-moz-border-radius: 6px; 
+  	border-radius: 6px; 
+	padding: 5px;
+	font-size: 10px;
+	padding-bottom: 2px;
+	cursor: pointer;
+	float: left;
+	margin-right: 3px;
+	margin-top: 3px;
+	color: #999;
+	min-height: 20px;
+	height: 25px;
+	background-color: #fff;
+}
+.eye.btn_on {
+	background:url(/dex/i/noeye.svg) center center no-repeat; 
+	background-size: 20px;
+	min-height: 20px;
+	background-color: #a0a0a0;
+	float: left;
+	height: 25px;
+	width: 30px;
+}
+.eye {
+	background:url(/dex/i/eye.svg) center center no-repeat; 
+	background-size: 20px;
+	min-height: 20px;
+	float: left;
+	height: 25px;
+	width: 30px;
+	box-shadow: 0 2px 2px rgba(0,0,0,.3);
+}
+
+.btn_on {
+	color: #000;
+	background-color: #a0a0a0;
+}
+.loadInpt {
+	background-image: url(/i/loaderB.svg)!important;
+	background-size: 18px!important;
+}
+#fltrSet {
+	width:275px;
+	left:-110px;
+	border: 1px #f0f0f0 solid;
+	-moz-border-radius: 6px; 
+  	border-radius: 6px; 
+	padding: 5px;
+	box-shadow: 0 2px 2px rgba(0,0,0,.3);
+	background-color: #fff;
+}
+</style>
+
+</head>
+
+<body>
+<script>
+      var FINGER;
+      var fp = new Fingerprint2();
+      fp.get(function(result, components) {
+        FINGER=result;
+      });
+
+
+function newGenerate() {
+	var data = Array();
+	data.push({name: "generateNew", value: "Y"},{name: "FINGER", value: FINGER});
+    $.ajax({
+      type: "POST",
+      url: "https://monsternode.net/dex/ajax.php",
+      data: data,
+      success: function(data) {
+          if(data=='ERROR') {
+          	console.log(data);
+          } else {
+          	document.location = 'trade.php';
+          }
+     },
+    error: function(e) {
+        console.log(e);
+    }
+	});
+}
+
+
+var USER_BALANCE=[];
+</script>
+
+<div class="to_blur">
+
+<div class="main-wrap">
+
+<header class="head">
+	<div class="header__container u-container u-container--large">
+		<a href="/dex/" class="header__logo no-link is-active ">
+			<img src="/i/logo_b.png" alt="Minter" height="36" class="header__logo-image">
+			<div class="header__logo-text">Monster DEX</div>
+		</a>
+		<div class="header__user u-hidden-medium-down"><a href="https://monsternode.net/dex/" class="button button--ghost-white">Sign In / Up</a></div>
+	</div>
+</header>
+
+<div class="main-content main-content--grid u-container-margin u-container--large">
+
+<main class="main-content__main" id="content">
+
+
+</main>
+
+
+
+<aside class="main-content__aside">
+<div class="u-container main-content__aside-section">
+
+<div style="padding-bottom:15px">
+<input type="text" id="coinName" placeholder="COIN" style="
+width:50%;
+background-image: url(/dex/i/search.svg);
+background-position: 5px center;
+background-size:16px;
+background-repeat:no-repeat;
+padding:5px;
+padding-left:30px;
+text=transform:uppercase;
+  -moz-border-radius: 5px; 
+  border-radius: 5px;
+border:1px #f0f0f0 solid;
+box-shadow: 0 3px 5px rgba(0,0,0,.3);
+float:left;
+" />
+<div class="filter">
+
+	
+	
+</div>
+<script>
+
+	function onoffall(act) {
+		
+		$.each($('.butn'), function( k, v ) {
+  			if(act=='on') {
+  				$(v).addClass("btn_on");
+  			}
+  			if(act=='off') {
+  				$(v).removeClass("btn_on");
+  			}
+  		});
+  		
+	}
+	
+	function endonof() {
+		var off = 'N';
+		var on = 'Y';
+		var ret=[];
+		$.each($('.butn'), function( k, v ) {
+  			if($(v).hasClass("btn_on") && !$(v).hasClass("eye")) {
+  				off = 'Y';
+  				ret.push(v.getAttribute('data-filter'));
+  			}
+  			if(!$(v).hasClass("btn_on") && !$(v).hasClass("eye")) {
+  				on = 'N';
+  			}
+  		});
+  		
+  		setTimeout(function(){coins('Y',ret);},1000);
+  		
+  			if(off == 'Y') {
+  				$('.eye').removeClass("btn_on");
+  			}
+  			if(on == 'Y') {
+  				$('.eye').addClass("btn_on");
+  			}
+	}
+
+	$('.butn').click(function() {
+		
+		if(!$(this).hasClass('eye')) {
+			
+		if(!$(this).hasClass('btn_on')) {
+			$(this).addClass('btn_on');
+		} else {
+			$(this).removeClass('btn_on');
+		}
+		
+		endonof();
+		
+		} else {
+			if($('#fltrSet').is(':visible')) {
+				$('#fltrSet').fadeOut();
+			} else {
+				$('#fltrSet').fadeIn();
+			}
+		}
+		
+	});
+</script>
+<div class="clear">&nbsp;</div>
+</div>
+
+
+<menu class="menu no-list u-grid u-grid--vertical-margin--small">
+
+<table width="100%" border="0" cellpadding="3" cellspacing="0" id="coins">
+	<thead>
+	<tr>
+	<th nowrap="nowrap" class="nobrdl">Coin</th>
+	<th nowrap="nowrap" align="left" class="{sorter: 'integer'}">Price, MNT</th>
+	<th nowrap="nowrap" class="{sorter: 'integer'}">Volume, MNT</th>
+	<th nowrap="nowrap">Change</th>
+	<th class="sml" width="50">Reserve Ratio, %</th>
+	<th class="sml" width="50">Delegated, %</th>
+	</tr>
+	</thead>
+	
+	
+	<tbody id="tbody">
+	
+	</tbody>
+</table>
+<div align="center" style="text-align:center; width:100%" id="loader"><img src="/i/loaderB.svg" /></div>
+
+</menu>                           
+                            
+</div>
+</aside>
+
+</div>
+
+<footer class="footer">
+<div class="footer__container u-container u-container--large">
+
+<img src="/dex/i/minter-logo-white.svg" alt="Minter" class="footer__logo"> 
+<div class="footer__menu">
+
+<div class="footer__menu-item"><a href="https://monsternode.net/" target="_blank" rel="nofollow noopener" class="footer__link link--hover">MonsterNode</a></div>
+<div class="footer__menu-item"><a href="tg://resolve?domain=mnstnode" target="_blank" rel="nofollow noopener" class="footer__link link--hover">MonsterNode chanel</a></div>
+<div class="footer__menu-item"><a href="tg://resolve?domain=mnstbot" target="_blank" rel="nofollow noopener" class="footer__link link--hover">MonsterNode Help Bot</a></div>
+<div class="footer__menu-item"><a href="mailto:hello@monsternode.net" target="_blank" rel="nofollow noopener" class="footer__link link--hover">hello@monsternode.net</a></div>
+
+</div>
+
+</div>
+</footer>
+
+
+</div>
+
+<script>
+function addCommas(nStr, del)
+{
+    nStr += '';
+    x = nStr.split('.');
+    x1 = x[0];
+    x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + del + '$2');
+    }
+    return x1 + x2;
+}
+
+var timeparts = [
+   {name: 'millenni', div: 31556736000, p: 'a', s: 'um'},
+   {name: 'centur', div: 3155673600, p: 'ies', s: 'y'},
+   {name: 'decade', div: 315567360},
+   {name: 'y', div: 31556736},
+   {name: 'm', div: 2629728},
+   {name: 'd', div: 86400},
+   {name: 'h', div: 3600},
+   {name: 'm', div: 60},
+   {name: 's', div: 1}
+];
+
+function timeAgoNaive2(comparisonDate) {
+	var ttm=comparisonDate.getTime();
+   var i = 0,
+      parts = [],
+      interval = Math.floor((new Date().getTime() - ttm) / 1000);
+      iinn=interval;
+   for ( ; interval > 0; i += 1) {
+      value = Math.floor(interval / timeparts[i].div);
+      interval = interval - (value * timeparts[i].div);
+      if (value) {
+         parts.push(value + '' + timeparts[i].name +' '+ (value !== 1 ? timeparts[i].p || '' : timeparts[i].s || ''));
+      }
+   }
+   if (parts.length === 0) { return 'now'; }
+   var ret=[];
+   //for (var x=0; x<parts.length; x++) {
+   		if(iinn>=31556736) {
+   			//console.log('Y d'+parts[x]);
+   			ret=parts[0]+parts[1];
+   		}
+   		if(iinn>=2629728) {
+   			//console.log('m d '+parts[x]);
+   			ret=parts[0]+parts[1];
+   		}
+   		if(iinn>=86400) {
+   			//console.log('d h '+parts[x]);
+   			ret=parts[0]+parts[1];
+   		}
+   		if(iinn>=3600) {
+   			//console.log('h min '+parts[x]);
+   			ret=parts[0]+parts[1];
+   		}
+   		if(iinn>=60) {
+   			//console.log('min sec '+parts[x]);
+   			ret=parts[0]+parts[1];
+   		}
+   		
+   //}
+   return ret;
+}
+
+function rndFloat(i,n) {
+	if(!n) { n=4; }
+	var e = (''+i).split('.');
+	if(e[1]) { e[1]='.'+e[1]; } else { e[1]=''; }
+	return Number(e[0]+e[1].substring(0,n+1)).toFixed(n);
+}
+
+function getProfile() {
+
+	$('#content').html('<div align="center" style="text-align:center; padding:40px"><img src="/i/loaderB.svg" /></div>');
+
+	$.getJSON("https://monsternode.net/dex/ajax.php?userData=1", function(data) {
+	//console.log(data);
+		var html = '<div class="coinName">user</div><div class="coinInfo"><div class="cinfItem"><strong>Address:</strong> '+data['address']+'</div></div><div class="coinInfo"><div class="cinfItem"><strong>Mnemonic:</strong> <span data-val="'+data['seed']+'" style="cursor:pointer" onclick="$(this).html($(this).attr(\'data-val\')); $(this).css(\'cursor\',\'default\')">Show</span></div></div><div class="coinInfo"><div class="cinfItem"><strong>Private key:</strong> <span data-val="'+data['private']+'" style="cursor:pointer" onclick="$(this).html($(this).attr(\'data-val\')); $(this).css(\'cursor\',\'default\')">Show</span></div></div><div class="coinName" style="border-top:1px #ccc solid; margin-top:20px">Coins</div><div id="coinsList">';
+		
+		var selectCoin=[];
+
+		if(0+data['balance']['MNT'][0]>0) {
+		html = html+'<div class="coinInfo"><div class="cinfItem"><strong><span style="color:#cf5c2c">MNT</span>:</strong> <span id="UPbalMNT">'+(data['balance']['MNT'][0])+'</span></div></div>';
+		selectCoin.push('MNT');
+		}
+		var BLNC = [];
+		$.each(data['balance'], function( key, val ) {
+			if(key != 'MNT') {
+				var ccn = '<a href="javascript:void(0)" onclick="showCoin(\''+key+'\',this); return false">'+key+'</a>';
+				html = html+'<div class="coinInfo"><div class="cinfItem"><strong>'+ccn+':</strong> <span id="UPbal'+key+'">'+(val[0])+'</span></div></div>';
+				selectCoin.push(key);
+			}
+			BLNC[key]=val[0];
+		});
+		//console.log(BLNC);
+		
+		html = html+'</div>';
+		
+		window.setInterval(function() {
+		var cnsExists=[];
+			$.each(data['balance'], function( key, val ) {
+				$('#UPbal'+key).html(USER_BALANCE[key]);
+				cnsExists[key]=1;
+			});
+		},20000);
+
+		var selHtm = '<select name="delegate_coin" id="delegate_coin" size="1" style="width:26%">';
+		var selHtmDFEE = '<select name="TXDfeecoin" id="TXDfeecoin" size="1" style="width:26%"><option>Choose TX Fee coin</option>';
+		var selHtmFee = '<select name="TXfeecoin" id="TXfeecoin" size="1" style="width:26%"><option>Choose TX Fee coin</option>';
+		var selHtmSendCoin = '<select name="TXSendCoin" id="TXSendCoin" size="1" style="width:26%">';
+		$.each(selectCoin, function( key, val ) {
+			selHtm = selHtm +'<option value="'+val+'">'+val+' ('+BLNC[val]+')</option>';
+			selHtmDFEE = selHtmDFEE +'<option value="'+val+'">'+val+' ('+BLNC[val]+')</option>';
+			selHtmFee = selHtmFee +'<option value="'+val+'">'+val+' ('+BLNC[val]+')</option>';
+			selHtmSendCoin = selHtmSendCoin +'<option value="'+val+'">'+val+' ('+BLNC[val]+')</option>';
+		});
+		selHtm = selHtm +'</select>';
+		selHtmDFEE = selHtmDFEE +'</select>';
+		selHtmFee = selHtmFee +'</select>';
+		selHtmSendCoin = selHtmSendCoin +'</select>';
+		
+		html = html+'<form id="delegate" method="GET" autocomplete="off" onsubmit="delegate(this); return false"><input autocomplete="false" name="hidden" type="text" style="display:none;"><div class="coinName" style="border-top:1px #ccc solid; margin-top:20px">Delegate</div><div class="coinInfo"><div class="cinfItem"><input type="text" name="pub_key" id="pub_key" style="width:90%;" placeholder="Validator public key (Mp...)" /></div></div><div class="coinInfo"><div class="cinfItem"><input type="number" step="any" name="coin_amount" id="delegate_coin_amount" style="width:30%;" placeholder="Coin amount to delegate" />&nbsp;&nbsp;&nbsp;'+selHtm+'&nbsp;&nbsp;&nbsp;'+selHtmDFEE+'</div></div><div class="coinInfo"><div class="cinfItem"><button class="button button--main button--full is-disabled" type="submit">DELEGATE</button></div></div><div class="coinInfo"><div class="cinfItem"><span id="TXSresDel" style="font-size:10px"></span></div></div></form>';
+		
+		
+		html = html+'<form id="sendTX" method="GET" autocomplete="off" onsubmit="sendTX(this); return false"><input autocomplete="false" name="hidden" type="text" style="display:none;"><div class="coinName" style="border-top:1px #ccc solid; margin-top:20px">Send</div><div class="coinInfo"><div class="cinfItem"><input type="text" name="TXto" id="TXto" style="width:90%;" placeholder="Address" /></div></div><div class="coinInfo"><div class="cinfItem"><input type="number" step="any" name="TXamount" id="TXamount" style="width:30%;" placeholder="Amount" />&nbsp;&nbsp;&nbsp;'+selHtmSendCoin+'&nbsp;&nbsp;&nbsp;'+selHtmFee+'</div></div><div class="coinInfo"><div class="cinfItem"><textarea name="TXMessage" id="TXMessage" style="width:90%;" placeholder="Message" /></div></div><div class="coinInfo"><div class="cinfItem"><button class="button button--main button--full is-disabled" type="submit">SEND</button></div></div><div class="coinInfo"><div class="cinfItem"><span id="TXSres" style="font-size:10px"></span></div></div></form>';
+		
+		
+		
+  		$('#content').html(html);
+		$('html, body').animate({scrollTop: 0}, 100);
+	});
+}
+
+
+function delegate(e) {
+	$('#TXSresDel').html('<img src="/i/loaderB.svg" height="30" />');
+
+	$.getJSON("https://monsternode.net/dex/ajax.php?delegate=1&pub_key="+$('#pub_key').val()+"&delegate_coin_amount="+$('#delegate_coin_amount').val()+"&delegate_coin="+$('#delegate_coin').val()+"&TXfeecoin="+$('#TXDfeecoin').val(), function(data) {
+	console.log(data);
+		if(data['result']) {
+			$('#TXSresDel').html('<a href="https://testnet.explorer.minter.network/transactions/'+data['result']['hash']+'" style="text-decoration:underline" target="_blank">'+data['result']['hash']+'</a>');
+		} else {
+			$('#TXSresDel').html('<span style="font-size:10px">'+data['data']+'</span>');
+		}
+	});
+	return false;
+
+}
+
+
+
+function sendTX(e) {
+	$('#TXSres').html('<img src="/i/loaderB.svg" height="30" />');
+
+	$.getJSON("https://monsternode.net/dex/ajax.php?sendTX=1&TXto="+$('#TXto').val()+"&TXfeecoin="+$('#TXfeecoin').val()+"&TXSendCoin="+$('#TXSendCoin').val()+'&TXamount='+$('#TXamount').val()+'&TXMessage='+encodeURIComponent($('#TXMessage').val()), function(data) {
+	console.log(data);
+		if(data['result']) {
+			$('#TXSres').html('<a href="https://testnet.explorer.minter.network/transactions/'+data['result']['hash']+'" style="text-decoration:underline" target="_blank">'+data['result']['hash']+'</a>');
+		} else {
+			$('#TXSres').html('<span style="font-size:10px">'+data['data']+'</span>');
+		}
+	});
+	return false;
+
+}
+
+var coin;
+var srtf=0;
+var TOPCOIN=0;
+
+function coins(t,dop) {
+if(!t) { t="Y"; }
+var dopShowStr=false;
+if(!dop) { dop = []; }
+
+	//if(coin!=$('#coinName').val()) {
+		
+		coin=$('#coinName').val();
+		
+		var loc = window.location.href.split('#');
+		if(loc[1] && loc[1].indexOf('profile')!=-1 && dop.length==0 && coin=='') { dop = [loc[1]]; }
+
+
+		var items = [];
+		
+		if(t=="Y") { 
+		$("#tbody").empty();
+		$("#coins").trigger("update");
+		$("#loader").show();
+		}
+				
+			$.getJSON("https://monsternode.net/dex/ajax.php?coinSearch=1&coin="+$('#coinName').val().toUpperCase()+'&s='+dop.join("|"), function(data) { 
+             
+             if(data.length==0) { $("#tbody").html('<div align="center" style="text-align:center; padding:40px; font-weight:bold">Coin '+$('#coinName').val().toUpperCase()+' not found!</div>'); $("#loader").hide(); return false; }
+             
+             var GLOBC=1;
+  				$.each(data, function( key, val ) {
+  				
+  					var ord = (GLOBC/2);
+   			 		if((''+ord).indexOf('.')==-1) { cls='odd'; } else { cls='even'; }
+   			 		GLOBC++;
+   			 		
+   			 		age=timeAgoNaive2(new Date(val['CREATE']['time']*1000));
+  				
+	  				items.push("<tr class='"+cls+" trShowCoin' onclick=\"showCoin('"+key+"', this)\"><td nowrap=\"nowrap\" class=\"nobrdl coinKey\" data-sort=\""+key+"\">"+key+"</td><td nowrap=\"nowrap\" class=\"{sorter: 'integer'}\" data-sort=\""+val['INFO']['price']+"\">"+addCommas(val['INFO']['priceShort'],' ')+"</td><td nowrap=\"nowrap\" class=\"{sorter: 'integer'}\" data-sort=\""+val['INFO']['vol24']+"\">"+addCommas(val['INFO']['vol24'],' ')+"</td><td nowrap=\"nowrap\" class=\"{sorter: 'integer'}\" data-sort=\""+val['INFO']['priceChange24']+"\">"+(val['INFO']['priceChange24']<=0?'<span style="color:red">'+val['INFO']['priceChange24']+'%</span>':'<span style="color:green">+'+val['INFO']['priceChange24']+'%</span>')+"</td><td class='sml'>"+val['INFO']['result']['crr']+"</td><td nowrap=\"nowrap\" data-sort=\""+val['INFO']['delegatedStakeProc']+"\" class='sml'>"+val['INFO']['delegatedStakeProc']+"%</td></tr>");
+	  				
+	  			});
+	  			
+	  	if(t=="N") { 
+			$("#tbody").empty();
+			$("#loader").show();
+			$("#coins").trigger("update");
+		}
+
+	  			
+	  			$("#tbody").append(items.join( " " ));
+	  			//$("#coins").show();
+				$("#loader").hide();  
+				
+				if(items.length>0) {
+				var sorting = [[2,1]];
+				$("#coins").trigger("update");
+			
+			if(t=="N") { 	
+			setTimeout(function() {
+				$("#coins").trigger("update"); 
+            	$("#coins").trigger("sorton",[sorting]);
+            	$('#coinName').removeClass("loadInpt");
+            },2000);
+            }
+
+			if(srtf==0) {	
+			srtf++; 
+            // sort on the first column 
+            $("#coins").tablesorter(
+            	{ 
+            	headers: { 
+            	4: { 
+                	sorter: false 
+            	}, 
+           		5: { 
+                	sorter: false 
+            		} 
+        		},
+            	textExtraction: function(node) { 
+            		// extract data from markup and return it  
+            		if(node.getAttribute('data-sort')) {
+            			return node.getAttribute('data-sort'); 
+            		} else {
+            			return node.innerText;
+            		}
+        		},
+        		widgets: ['zebra'] 
+    		});
+            $("#coins").trigger("sorton",[sorting]);
+            
+            } 
+            }
+            
+            if(t!="N") {
+            
+                        
+            setTimeout(function() {
+			$("#coins").trigger("update"); 
+            $("#coins").trigger("sorton",[sorting]);
+            },2000);
+			
+			setTimeout(function() {
+			$.each($("#coins").find('.coinKey'), function( k, v ) {
+  				if(!loc[1] || loc[1]=='') { showCoin($(v).html()); }
+  				return false;
+  			});	
+  			if(loc[1] && (dop.length==0 || dopShowStr!=false) && loc[1].indexOf('profile')==-1) { 
+  				showCoin(loc[1],null); 
+  			}
+  			},2500);
+  			
+  			}
+              						
+		});  			
+   //}
+}
+
+var cnnmCUR='';
+$('#coinName').on('input',function(e){
+	
+  setTimeout(
+  function() 
+  {
+  	$('#coinName').addClass("loadInpt");
+  	if(cnnmCUR != $('#coinName').val()) {
+    	coins('N');
+    	cnnmCUR = $('#coinName').val();
+    }
+    
+  }, 2000);
+});
+
+
+
+					$(document).on("mouseenter", "#coins tr", function(event) {
+    					if($(this).parent().prop("tagName")!='THEAD' && $(this).parent().prop("tagName")!='thead') { 
+    						//$(this).add('background-color','#d4916f'); 
+    						$(this).addClass("active");
+    					}
+  					});
+  					$(document).on("mouseleave", "#coins tr", function(event) {
+    					if($(this).parent().prop("tagName")!='THEAD' && $(this).parent().prop("tagName")!='thead') {
+    						//$(this).css('background-color','transparent');
+    						$(this).removeClass("active");
+    					}
+  					});
+  					
+
+window.onpopstate = function(event) {
+  console.log("location: " + location.href + ", state: " + JSON.stringify(event.state));
+};
+function setLocation(curLoc){
+	var loc = window.location.href.split('#');
+	//window.location.href='#'+curLoc;
+}
+
+function showOwned(usr) {
+	coins("Y",[usr]);
+}
+
+
+
+function showCoin(PK,el) {  
+$('#content').html('<div align="center" style="text-align:center; padding:50px"><img src="/i/loaderB.svg" /></div>');
+
+setLocation(PK);
+					
+  					$.getJSON("https://monsternode.net/dex/ajax.php?coinSearch=1&card=1&coin="+PK, function(data) {
+  					
+  					if(data.length==0) {
+  						$("#content").html('<div align="center" style="text-align:center; padding:40px; font-weight:bold">Coin '+PK+' not found!</div>');
+  						return false;
+  					}
+  					
+  						$('#coins tbody tr.trShowCoin').removeClass("selected");
+  							$.each(data, function( key, val ) {
+  								if(key==PK) {
+  									age=timeAgoNaive2(new Date(val['CREATE']['time']*1000));
+  									var html = '<div class="coinName" data-coin="'+key+'">'+key+'<small style="color:#666; position:relative; margin-left:30px; font-weight:normal">'+val['INFO']['result']['name']+'</small></div><div class="coinInfo"><div class="cinfItem"><strong>Price: '+addCommas(val['INFO']['priceShort'],' ')+' '+val['NETWORK']['baseCoin']+'&nbsp;&nbsp;&nbsp;'+(val['INFO']['priceChange24']<=0?'<span style="color:red">'+val['INFO']['priceChange24']+'%</span>':'<span style="color:green">+'+val['INFO']['priceChange24']+'%</span>')+'</strong>&nbsp;&nbsp;&nbsp;<strong>24H hight:</strong>  '+addCommas(rndFloat(val['INFO']['priceHight24H'],5),' ')+' '+val['NETWORK']['baseCoin']+'&nbsp;&nbsp;&nbsp;<strong>24H low:</strong> '+addCommas(rndFloat(val['INFO']['priceLow24H'],5),' ')+' '+val['NETWORK']['baseCoin']+'</div></div>';
+  									
+  									html=html+'<div style="width:100%; margin:10px 0; border-top:1px #ccc solid"><!--div class="coinName" style="padding-top:15px">BUY/SELL</div--><div class="coinInfo"><div class="cinfItem"><div style="float:left; width:47.3%; border-right:1px #ccc solid" id="buy"><form method="get" autocomplete="off" id="form_buy" style="padding-right:20px;" onsubmit="buy(this); return false;" data-price="'+val['INFO']['price']+'" data-coin="'+PK+'" data-amount="'+(val['INFO']['result']['volume']/1000000000000000000)+'" data-reserve="'+(val['INFO']['result']['reserve_balance']/1000000000000000000)+'"><input autocomplete="false" name="hidden" type="text" style="display:none;"><div id="coinMNT" style="padding:7px 0">&nbsp;</div><button class="button button--main button--full is-disabled" type="submit" style="float:right; margin-top:3px; cursor:pointer">BUY</button><!--button class="button button--main button--full is-disabled" type="button" style="float:left; margin-right:2px; opacity:0.3">BUY</button--><div style="float:left; width:70%"><input name="coin_to_buy" id="BUY_coin_to_buy"  placeholder="'+PK+' amount" type="number" step="any" style="width:100%; float:none" onkeyup="calculate(this)" /><div class="clear" style="padding:3px 0;">&nbsp;</div><input name="coin_to_sell" id="BUY_coin_to_sell" placeholder="Spend MNT" type="number" step="any" style="width:100%; float:none" onkeyup="calculate(this)" /></div></form></div><div style="float:left; width:52.7%;" id="sell"><form method="get" autocomplete="off" id="form_sell" style="padding-left:20px; padding-right:20px" onsubmit="sell(this); return false;" data-price="'+val['INFO']['price']+'" data-coin="'+PK+'" data-amount="'+(val['INFO']['result']['volume']/1000000000000000000)+'" data-reserve="'+(val['INFO']['result']['reserve_balance']/1000000000000000000)+'"><input autocomplete="false" name="hidden" type="text" style="display:none;"><div id="coin'+PK+'" style="padding:7px 0">&nbsp;</div><button class="button button--main button--full is-disabled" type="submit" style="float:right; margin-right:2px; margin-top:3px; cursor:pointer">SELL</button><!--button class="button button--main button--full is-disabled" type="submit" style="float:left; margin-right:0px; opacity:0.3">SELL</button--><div style="float:left; width:70%"><input name="coin_to_sell" id="SELL_coin_to_sell" placeholder="'+PK+' amount" type="number" step="any" style="width:100%; float:none" onkeyup="calculate(this)" /><div class="clear" style="padding:3px 0;">&nbsp;</div><input name="coin_to_buy" id="SELL_coin_to_buy" placeholder="Recieve MNT" type="number" step="any" style="width:100%; float:none" onkeyup="calculate(this)" /></div></form></div></div></div></div><div class="clear">&nbsp;</div><div id="txres" style="text-align:center; padding-top:10px; font-size:12px">Tx.Fee: 0.1 MNT</div><div class="clear" style="padding:10px 0; border-bottom:1px #ccc solid">&nbsp;</div>';
+  									
+  									html=html+'<div style="width:100%; height:600px; margin:20px 0; background: url(/i/loaderB.svg) center center no-repeat"><iframe src="/dex/chart_n.php?coin='+PK+'" id="chart" style="width:100%; height:600px; border:0; padding0; margin:0"></iframe></div>';
+  									
+  									
+  									html = html+'<div class="coinInfo"><div class="cinfItem"><strong>Volume, 24H:</strong>  '+addCommas(val['INFO']['vol24'],' ')+' '+val['NETWORK']['baseCoin']+'&nbsp;&nbsp;&nbsp;<strong>Cap.:</strong> '+addCommas(rndFloat(val['INFO']['baseCoinVolume'],),' ')+' '+val['NETWORK']['baseCoin']+'&nbsp;&nbsp;&nbsp;<strong>Volume:</strong> '+addCommas(rndFloat(val['INFO']['result']['volume']/1000000000000000000),' ')+' '+PK+'<br><strong>Delegated:</strong> '+addCommas(rndFloat(val['INFO']['delegatedStake']),' ')+' '+PK+' ('+val['INFO']['delegatedStakeProc']+'%)</div></div><div class="coinInfo"><div class="cinfItem">Created by <a href="#profile'+val['INFO']['result']['creator']+'" onClick="showOwned(\'profile'+val['INFO']['result']['creator']+'\')" style="text-decoration:underline">'+val['INFO']['result']['creator']+'</a>, '+age+' ago</div><div class="cinfItem">Initial amount: '+addCommas(rndFloat(val['CREATE']['data']['initial_amount']/1000000000000000000),' ')+' '+PK+'; Initial reserve: '+addCommas(rndFloat(val['CREATE']['data']['initial_reserve']/1000000000000000000),' ')+' '+val['NETWORK']['baseCoin']+'; <strong>Reserve ratio:</strong> <span id="coin_crr">'+val['INFO']['result']['crr']+'</span>%</div></div>';
+  									
+  									var USactar = val['USER_ACTS'];
+  									if(Object.keys(USactar).length>0) {
+  									html=html+'<div class="coinInfo" style="margin-top:20px; border-top:1px #ccc solid"><div class="cinfItem"><strong>MY TRADES</strong></div></div><div class="coinInfo"><div class="cinfItem" style="overflow-y:scroll; height:250px; margin-right:15px"><table width="100%" border="0" cellpadding="3" cellspacing="0" class="tbl smallTbl"><thead><tr><th nowrap="nowrap" class="nobrdl">Date</th><th nowrap="nowrap">Action</th><th nowrap="nowrap">Price</th><th nowrap="nowrap">Amount</th><th nowrap="nowrap">Volume</th></tr></thead><tbody>';
+  									
+									var GLOBC=1;
+									var USRacts = '';
+  									$.each(USactar, function( Utm, Uact ) {
+  									var ord = (GLOBC/2);
+   			 							if((''+ord).indexOf('.')==-1) { cls='odd'; } else { cls='even'; }
+   			 						GLOBC++;
+
+   			 			    if(Uact['type']==3) {
+								if(Uact['data']['coin_to_buy']==PK) {
+									var amnt = addCommas(rndFloat(Uact['tags']['tx.return']/1000000000000000000,18),' ');
+									var vol = addCommas(rndFloat(Uact['tags']['tx.sell_amount']/1000000000000000000,18),' ');
+									var actType = '<span class="buy_act">Buy</span>';
+									
+									var coin_sb = Uact['data']['coin_to_sell'];
+								}
+								if(Uact['data']['coin_to_sell']==PK) {
+									var amnt = addCommas(rndFloat(Uact['tags']['tx.sell_amount']/1000000000000000000,18),' ');
+									var vol = addCommas(rndFloat(Uact['tags']['tx.return']/1000000000000000000,18),' ');
+									var actType = '<span class="sell_act">Sell</span>';
+									
+									var coin_sb = Uact['data']['coin_to_buy'];
+								}
+								
+							}
+							
+							if(Uact['type']==2) {
+								if(Uact['data']['coin_to_buy']==PK) {
+									var amnt = addCommas(rndFloat(Uact['tags']['tx.return']/1000000000000000000,18),' ');
+									var vol = addCommas(rndFloat(Uact['data']['value_to_sell']/1000000000000000000,18),' ');
+									var actType = '<span class="buy_act">Buy</span>';
+									
+									var coin_sb = Uact['data']['coin_to_sell'];
+
+								}
+								if(Uact['data']['coin_to_sell']==PK) {
+									var amnt = addCommas(rndFloat(Uact['data']['value_to_sell']/1000000000000000000,18),' ');
+									var vol = addCommas(rndFloat(Uact['tags']['tx.return']/1000000000000000000,18),' ');
+									var actType = '<span class="sell_act">Sell</span>';
+									
+									var coin_sb = Uact['data']['coin_to_buy'];
+								}
+								
+							}
+							
+							if(Uact['type']==4) {
+								if(Uact['data']['coin_to_buy']==PK) {
+									var amnt = addCommas(rndFloat(Uact['data']['value_to_buy']/1000000000000000000,18),' ');
+									var vol = addCommas(rndFloat(Uact['tags']['tx.return']/1000000000000000000,18),' ');
+									var actType = '<span class="buy_act">Buy</span>';
+									
+									var coin_sb = Uact['data']['coin_to_sell'];
+								}
+								if(Uact['data']['coin_to_sell']==PK) {
+									var amnt = addCommas(rndFloat(Uact['tags']['tx.return']/1000000000000000000,18),' ');
+									var vol = addCommas(rndFloat(Uact['data']['value_to_buy']/1000000000000000000,18),' ');
+									var actType = '<span class="sell_act">Sell</span>';
+									
+									var coin_sb = Uact['data']['coin_to_buy'];
+								}
+								
+							}
+   			 						
+  										USRacts='<tr class="'+cls+'"><td nowrap="nowrap" class="nobrdl">'+Uact['time']+'</td><td>'+actType+'</td><td nowrap="nowrap">'+addCommas(Uact['data']['shortPrice'],' ')+' '+val['NETWORK']['baseCoin']+'</td><td nowrap="nowrap">'+amnt+' '+PK+'</td><td nowrap="nowrap">'+vol+' '+coin_sb+'</td></tr>'+USRacts;
+  									});
+  									
+  									html=html+USRacts+'</tbody></table></div></div>';
+  									}
+  									
+  									
+  									html=html+'<div class="coinInfo" style="margin-top:20px; border-top:1px #ccc solid"><div class="cinfItem"><strong>TRADE HISTORY</strong></div></div><div class="coinInfo"><div class="cinfItem" style="overflow-y:scroll; height:250px; margin-right:15px"><table width="100%" border="0" cellpadding="3" cellspacing="0" class="tbl smallTbl"><thead><tr><th nowrap="nowrap" class="nobrdl">Date</th><th nowrap="nowrap">Action</th><th nowrap="nowrap">Price</th><th nowrap="nowrap">Amount</th><th nowrap="nowrap">Volume</th></tr></thead><tbody>';
+  									
+  									var actar = val['ACTS'];
+									var GLOBC=1;
+									var acts = '';
+  									$.each(actar, function( tm, act ) {
+  									var ord = (GLOBC/2);
+   			 							if((''+ord).indexOf('.')==-1) { cls='odd'; } else { cls='even'; }
+   			 						GLOBC++;
+
+   			 			    if(act['type']==3) {
+								if(act['data']['coin_to_buy']==PK) {
+									var amnt = addCommas(rndFloat(act['tags']['tx.return']/1000000000000000000,18),' ');
+									var vol = addCommas(rndFloat(act['tags']['tx.sell_amount']/1000000000000000000,18),' ');
+									var actType = '<span class="buy_act">Buy</span>';
+									
+									var coin_sb = act['data']['coin_to_sell'];
+								}
+								if(act['data']['coin_to_sell']==PK) {
+									var amnt = addCommas(rndFloat(act['tags']['tx.sell_amount']/1000000000000000000,18),' ');
+									var vol = addCommas(rndFloat(act['tags']['tx.return']/1000000000000000000,18),' ');
+									var actType = '<span class="sell_act">Sell</span>';
+									
+									var coin_sb = act['data']['coin_to_buy'];
+								}
+								
+							}
+							
+							if(act['type']==2) {
+								if(act['data']['coin_to_buy']==PK) {
+									var amnt = addCommas(rndFloat(act['tags']['tx.return']/1000000000000000000,18),' ');
+									var vol = addCommas(rndFloat(act['data']['value_to_sell']/1000000000000000000,18),' ');
+									var actType = '<span class="buy_act">Buy</span>';
+									
+									var coin_sb = act['data']['coin_to_sell'];
+
+								}
+								if(act['data']['coin_to_sell']==PK) {
+									var amnt = addCommas(rndFloat(act['data']['value_to_sell']/1000000000000000000,18),' ');
+									var vol = addCommas(rndFloat(act['tags']['tx.return']/1000000000000000000,18),' ');
+									var actType = '<span class="sell_act">Sell</span>';
+									
+									var coin_sb = act['data']['coin_to_buy'];
+								}
+								
+							}
+							
+							if(act['type']==4) {
+								if(act['data']['coin_to_buy']==PK) {
+									var amnt = addCommas(rndFloat(act['data']['value_to_buy']/1000000000000000000,18),' ');
+									var vol = addCommas(rndFloat(act['tags']['tx.return']/1000000000000000000,18),' ');
+									var actType = '<span class="buy_act">Buy</span>';
+									
+									var coin_sb = act['data']['coin_to_sell'];
+								}
+								if(act['data']['coin_to_sell']==PK) {
+									var amnt = addCommas(rndFloat(act['tags']['tx.return']/1000000000000000000,18),' ');
+									var vol = addCommas(rndFloat(act['data']['value_to_buy']/1000000000000000000,18),' ');
+									var actType = '<span class="sell_act">Sell</span>';
+									
+									var coin_sb = act['data']['coin_to_buy'];
+								}
+								
+							}
+   			 						
+  										acts='<tr class="'+cls+'"><td nowrap="nowrap" class="nobrdl">'+act['time']+'</td><td>'+actType+'</td><td nowrap="nowrap">'+addCommas(act['data']['shortPrice'],' ')+' '+val['NETWORK']['baseCoin']+'</td><td nowrap="nowrap">'+amnt+' '+PK+'</td><td nowrap="nowrap">'+vol+' '+coin_sb+'</td></tr>'+acts;
+  									});
+  									
+  									html=html+acts+'</tbody></table></div></div>';
+  									
+  									$('#content').html(html);
+  									$('html, body').animate({scrollTop: 0}, 100);
+  									
+  									$.each($("#coins").find('.coinKey'), function( k, v ) {
+  										if($(v).html()==PK) {
+  											$(v).parent().addClass("selected");
+  										}
+  									});
+  									
+  								}
+  							});
+  
+  
+  							
+  						});
+}
+  					
+  					  $(document).on("click", '.trShowCoin', function(event) {
+  						var PK = $(this).find('.coinKey')[0].getAttribute('data-sort').toUpperCase();
+  						var el = $(this);
+  						
+  						showCoin(PK, el);
+  					  });
+
+
+function setCoinAmount(e,c,a) {
+	if(c=='MNT') {
+		$(e).parent().parent().find('#BUY_coin_to_sell').val(a);
+		calculate($(e).parent().parent().find('#BUY_coin_to_sell'));
+	} else {
+		$(e).parent().parent().find('#SELL_coin_to_sell').val(a);
+		calculate($(e).parent().parent().find('#SELL_coin_to_sell'));
+	}
+}
+
+function updateBalances(PK) {
+	$.getJSON("https://monsternode.net/dex/ajax.php?userData=1", function(data) {		
+		$.each(data['balance'], function( key, val ) {
+		//val=(rndFloat(val/1000000000000000000,18));
+			USER_BALANCE[key]=(val[0]);
+			if(document.getElementById('coin'+key)) {
+				document.getElementById('coin'+key).innerHTML='You have: <a href="javascript:void(0)" onclick="setCoinAmount(this,\''+key+'\',\''+(val[0])+'\')" style="text-decoration:underline"><strong>'+(val[0])+' '+key+'</strong></a>';
+			}
+		});
+		
+		if(!USER_BALANCE['MNT'] || USER_BALANCE['MNT']<0.1) { $('#coinMNT').parent().parent().css('opacity','0.5'); } else { $('#coinMNT').parent().parent().css('opacity','1'); }
+		if(!USER_BALANCE[PK] || USER_BALANCE[PK]<0.000000000001) { $('#coin'+PK).parent().parent().css('opacity','0.5'); } else { $('#coin'+PK).parent().parent().css('opacity','1'); }
+	});
+	
+}
+
+
+
+eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--){d[e(c)]=k[c]||e(c)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('v u(e){0 f=$(e).5().5(\'b\').6(\'j\');0 t=$(e).5().5(\'b\').6(\'d-2\');0 i=$(e).5().5(\'b\').6(\'d-i\');0 h=$(e).5().5(\'b\').6(\'d-h\');0 8=1*i;0 7=1*h;0 9=1*(($(\'#z\').w())/x);a(f==\'A\'){a($(e).6(\'j\')==\'g\'||$(e).p("q").n()!=\'o\'){0 4=1*$(\'#g\').3();0 2=7*(((1+(4/8))**9)-1);$(\'#l\').3(2)}m{0 4=1*$(\'#l\').3();0 2=8*(1-(1+(4/7))**(1/9))*(-1);$(\'#g\').3(2)}}a(f==\'y\'){a($(e).6(\'j\')==\'c\'||$(e).p("q").n()!=\'o\'){0 4=1*$(\'#c\').3();0 2=8*(1-(1-(4/7))**(1/9));$(\'#k\').3(2)}m{0 4=1*$(\'#k\').3();0 2=7*(((1-(4/8))**9)-1)*(-1);$(\'#c\').3(2);r.s($(\'#c\'))}}}',37,37,'var||price|val|F21|parent|attr|C21|D21|E21|if|form|SELL_coin_to_sell|data||type|BUY_coin_to_sell|amount|reserve|id|SELL_coin_to_buy|BUY_coin_to_buy|else|toLowerCase|input|prop|tagName|console|log|prc|calculate|function|html|100|form_sell|coin_crr|form_buy'.split('|'),0,{}));
+
+
+
+function buy(e) {
+$('#txres').html('<img src="/i/loaderB.svg" height="30" /><div id="timer"></div>');
+//$('#timer').show();
+	$.getJSON("https://monsternode.net/dex/ajax.php?buycoin="+$(e).attr('data-coin')+"&amount_sell="+$('#BUY_coin_to_sell').val(), function(data) {
+	console.log(data);
+		if(data['result']) {
+			$('#txres').html('<a href="https://testnet.explorer.minter.network/transactions/'+data['result']['hash']+'" style="text-decoration:underline" target="_blank">'+data['result']['hash']+'</a>');
+			//$('#timer').hide();
+  setTimeout(
+  function() 
+  {						
+  	updateBalances($(e).attr('data-coin'));
+  
+  }, 1000);
+		} else {
+			$('#txres').html('<span style="font-size:10px">'+data['data']+'</span>');
+		}
+	});
+	return false;
+}
+
+function sell(e) {
+$('#txres').html('<img src="/i/loaderB.svg" height="30" />');
+
+	$.getJSON("https://monsternode.net/dex/ajax.php?sellcoin="+$(e).attr('data-coin')+"&amount_sell="+$('#SELL_coin_to_sell').val(), function(data) {
+	console.log(data);
+		if(data['result']) {
+			$('#txres').html('<a href="https://testnet.explorer.minter.network/transactions/'+data['result']['hash']+'" style="text-decoration:underline" target="_blank">'+data['result']['hash']+'</a>');
+  setTimeout(
+  function() 
+  {						
+  	updateBalances($(e).attr('data-coin'));
+  
+  }, 1000);
+		} else {
+			$('#txres').html('<span style="font-size:10px">'+data['data']+'</span>');
+		}
+	});
+	return false;
+}
+
+$(document).ready(function() { 
+coins();
+setInterval(
+  function() 
+  {
+    updateBalances($('#CURRENT_COIN').attr('data-coin'));
+  }, 10000);	
+});
+
+</script>
+
+</body>
+</html>

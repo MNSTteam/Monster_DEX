@@ -1,0 +1,1074 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Monster DEX</title>
+<base href="https://monsternode.net/dex/">
+	<!--meta name="viewport" content="width=device-width, initial-scale=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=0, maximum-scale=0, user-scalable=no"-->
+    <link data-n-head="true" rel="icon" type="image/x-icon" href="/favicon.png">
+    
+<script src="/jquery.min.js"></script>
+<script src="/winblur.js"></script>
+<script src="/clipboard/dist/clipboard.min.js"></script>
+<script src="/Chart.bundle.min.js"></script>
+<script type="text/javascript" src="/__jquery.tablesorter/jquery.tablesorter.js"></script>
+
+<script src="main.js"></script>
+<script src="fingerprint2.js"></script>
+
+<style type="text/css">
+@font-face{
+font-family:Ubuntu;
+font-style:normal;
+font-weight:400;
+src:local("Ubuntu Regular"),
+local("Ubuntu-Regular"),
+url(/fonts/ubuntu-v11-cyrillic_latin-regular.4f9cb44.woff2) format("woff2"),
+url(/fonts/ubuntu-v11-cyrillic_latin-regular.b3d1002.woff) format("woff")
+}
+@font-face{
+font-family:Ubuntu;
+font-style:normal;
+font-weight:700;
+src:local("Ubuntu Bold"),
+local("Ubuntu-Bold"),
+url(/fonts/ubuntu-v11-cyrillic_latin-700.1878bde.woff2) format("woff2"),
+url(/fonts/ubuntu-v11-cyrillic_latin-700.0f3b6eb.woff) format("woff")}*,
+:after,:before{box-sizing:border-box
+}
+
+body{
+    background: linear-gradient(180deg,#2c2c2c 64px,transparent 0) no-repeat,linear-gradient(0deg,#3c3c3c 95.6px,transparent 0) no-repeat,#f6f6f6;
+    color: #333;
+    font-family: Ubuntu,SimSun,PingFang SC,sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.4;
+    margin: 0;    
+}
+html {
+    -moz-osx-font-smoothing: grayscale;
+    -ms-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -webkit-overflow-scrolling: touch;
+    -webkit-text-size-adjust: 100%;
+    line-height: 1.15;
+    overflow-y: scroll;
+}
+article, aside, footer, header, hgroup, main, nav, section {
+    display: block;
+}
+.clear {
+	float:none;
+	clear:both;
+	width:100%;
+	font-size:1px;
+}
+.main-wrap {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+}
+
+.head {
+    background: #2c2c2c;
+    box-shadow: 0 2px 5px rgba(0,0,0,.1);
+    color: #fff;
+    width: 100%;
+}
+.header__logo-image {
+    font-size: 0;
+    margin-left: 2px;
+    margin-right: 20px;
+    float: left;
+}
+.header__logo-text {
+    font-size: 26px;
+    line-height: 32px;
+    white-space: nowrap;
+}
+.header__container, .header__logo {
+    align-items: center;
+    display: flex;
+}
+.no-link {
+    text-decoration: none;
+}
+.link, .link:focus, .link:hover, a, a:focus, a:hover {
+    outline: 0;
+}
+.link, a {
+    -webkit-text-decoration-skip: ink;
+    color: inherit;
+    text-decoration: none;
+    text-decoration-skip: ink;
+    transition: .1s;
+}
+.header__container {
+    height: 64px;
+    justify-content: space-between;
+}
+.u-container--medium {
+    max-width: 988px;
+}
+
+.u-container {
+    padding: 0 24px;
+}
+.u-container {
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+
+
+.main-content {
+    flex-grow: 2;
+    width: 100%;
+}
+details, main {
+    display: block;
+}
+.auth {
+    background: url(/dex/i/auth.svg) 50% 0 no-repeat,linear-gradient(180deg,#161616,#313131);
+    background-blend-mode: soft-light;
+    color: #fff;
+}
+.u-section {
+    padding-bottom: 56px;
+    padding-top: 56px;
+}
+.u-section {
+    padding-bottom: 40px;
+    padding-top: 40px;
+}
+
+.box_window{
+  position:fixed;
+  z-index:1199;
+  background: #fff;
+  display:none;
+  padding:20px;
+  -moz-border-radius: 10px; 
+  border-radius: 10px; 
+  	top: 50px;
+    bottom: 50px;
+    
+    width:900px; /*Ширина блока*/
+    margin:0 auto;
+    left:50%;
+    margin-left:-450px; /*Смещаем блок на половину всей ширины влево*/
+    
+    box-shadow: 0 2px 5px rgba(0,0,0,.7);
+}
+.box_window_in {
+  overflow-y:scroll;
+  position:absolute;
+  	top: 20px;
+    right: 20px;
+    bottom: 20px;
+    left: 20px;
+    margin: auto;
+}
+.box_title {
+  position: absolute;
+  left: 0px;
+  top: -30px;
+  left: 25px;
+  color: #000;
+  text-shadow: 1px 1px 1px #aeaeae!important;
+  font-weight: bold;
+  font-size: 18px;
+  z-index: 9999;
+  background: url(i/copy.svg) center right no-repeat;
+  background-size: 18px 18px;
+  padding-right: 25px;
+  cursor: pointer;
+}
+.bw_close{
+  position:absolute;
+  top: -25px;
+  font-size: 10px;
+  color: #fff;
+  right:0px;
+  cursor:pointer;
+  z-index: 2;
+}
+.mask{
+  position:fixed;
+  background:rgba(0, 0, 0, 0.38);
+  display:none;
+  height:100%;
+  width: 100%;
+  z-index:10;
+}
+.to_blur.blur {
+ -webkit-filter: blur(5px);
+ -moz-filter: blur(5px);
+ -o-filter: blur(5px);
+ -ms-filter: blur(5px);
+ filter: blur(5px);
+}
+
+
+.main-content {
+    flex-grow: 2;
+    width: 100%;
+}
+details, main {
+    display: block;
+}
+.auth {
+    background: url(/dex/i/bg.svg) 50% 0 no-repeat,linear-gradient(180deg,#161616,#313131);
+    background-blend-mode: soft-light;
+    color: #fff;
+}
+.u-section {
+    padding-bottom: 56px;
+    padding-top: 56px;
+}
+.u-section {
+    padding-bottom: 40px;
+    padding-top: 40px;
+}
+
+.u-grid--vertical-margin {
+    margin-top: -24px;
+}
+.u-grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -24px;
+}
+.u-grid--vertical-margin>.u-cell {
+    padding-top: 24px;
+}
+.u-grid>.u-cell {
+    padding-left: 24px;
+}
+.u-cell {
+    width: 100%;
+}
+.u-cell--medium--1-2 {
+    width: 50%;
+}
+
+.panel {
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0,0,0,.1);
+    color: #333;
+}
+.panel__header {
+    padding: 18px 24px;
+}
+.panel__header, .panel__section {
+    border-bottom: 1px solid #e5e5e5;
+    padding: 24px;
+}
+.panel__header-title {
+    align-items: center;
+    display: flex;
+    font: inherit;
+    font-weight: 700;
+    margin: 0;
+    text-transform: uppercase;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: Ubuntu,SimSun,PingFang SC,sans-serif;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0;
+}
+h1 {
+    font-size: 2em;
+}
+.panel__header-title-icon {
+    margin: -8px 8px -8px -8px;
+}
+.panel__header, .panel__section {
+    border-bottom: 1px solid #e5e5e5;
+    padding: 24px;
+}
+.panel__header {
+    border-bottom: 1px solid #e5e5e5;
+    padding: 12px 24px;
+}
+.u-grid--vertical-margin--small {
+    margin-top: 0px;
+}
+.u-grid--small {
+    margin-left: -16px;
+}
+.u-grid--vertical-margin--small>.u-cell {
+    padding-top: 7px;
+}
+.u-grid--small>.u-cell {
+    padding-left: 16px;
+}
+.u-grid>.u-cell {
+    padding-left: 24px;
+}
+.u-cell--small--1-2 {
+    width: 50%;
+}
+
+.form-field {
+    cursor: pointer;
+    display: block;
+    font-weight: 400;
+    padding-top: 12px;
+    pointer-events: none;
+    position: relative;
+}
+.form-field__input {
+    -webkit-text-fill-color: currentcolor;
+    background: 0 0;
+    border: none;
+    border-bottom: 1px solid #a1a3a4;
+    border-radius: 0;
+    color: inherit;
+    display: block;
+    font-size: 16px;
+    line-height: 22px;
+    opacity: 1;
+    padding: 4px 0;
+    pointer-events: auto;
+    transition: .15s;
+    width: 100%;
+}
+input, select, textarea {
+    caret-color: #d15c22;
+    color: #333;
+    font: inherit;
+    outline: 0;
+}
+input {
+    overflow: visible;
+    vertical-align: middle;
+}
+button, input, optgroup, select, textarea {
+    margin: 0;
+}
+.button {
+ border-radius:6px
+}
+.form-field__label {
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-transform-origin: 0 0;
+    -webkit-user-select: none;
+    color: #858585;
+    font-size: 16px;
+    left: 0;
+    line-height: 20px;
+    position: absolute;
+    top: -11px;
+    transform-origin: 0 0;
+    transition: .15s;
+    user-select: none;
+    white-space: nowrap;
+}
+.button.is-disabled, .button[disabled] {
+    /*cursor: default;*/
+}
+.button {
+    align-items: center;
+    border: 2px solid transparent;
+    color: #333;
+    display: inline-flex;
+    font-family: Ubuntu,SimSun,PingFang SC,sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    justify-content: center;
+    line-height: 18px;
+    overflow: hidden;
+    padding: 10px 26px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    transition: .1s;
+}
+button {
+    cursor: pointer;
+    outline: 0;
+    overflow: visible;
+    text-transform: none;
+}
+.button--main {
+    background: #d15c22;
+    color: #fff;
+}
+
+*, :after, :before {
+    box-sizing: border-box;
+}
+
+.footer {
+    background: #3c3c3c;
+    color: #fff;
+    padding: 38px 0;
+    width: 100%;
+}
+.footer__container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.footer__container {
+    align-items: center;
+    justify-content: space-between;
+}
+
+.footer__logo {
+    margin-top: -8px;
+}
+.footer__logo {
+    display: block;
+    width: 76px;
+}
+.footer__menu {
+    margin-top: 20px;
+    text-align: center;
+    width: 100%;
+}
+.footer__menu {
+    margin-top: 0;
+    width: auto;
+}
+.footer__menu-item {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 700;
+}
+.footer__menu-item:after {
+    content: "\2005|\2005";
+    margin: 0 3px;
+}
+.footer__menu-item:last-child:after {
+    content: none;
+}
+.link, .link:focus, .link:hover, a, a:focus, a:hover {
+    outline: 0;
+}
+.link, a {
+    -webkit-text-decoration-skip: ink;
+    color: inherit;
+    text-decoration: none;
+    text-decoration-skip: ink;
+    transition: .1s;
+}
+
+.header__user {
+    align-items: center;
+    display: flex;
+}
+.button--ghost-white {
+    background: 0 0;
+    border-color: #fff;
+    color: #fff;
+}
+.header__user-logout {
+    font-size: 0;
+    margin-left: 16px;
+}
+.u-semantic-button {
+    background: 0 0;
+    border: none;
+    border-radius: 0;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    padding: 0;
+    text-align: inherit;
+}
+[type=button], [type=reset], [type=submit], button {
+    -webkit-appearance: button;
+}
+button {
+    cursor: pointer;
+    outline: 0;
+    overflow: visible;
+    text-transform: none;
+}
+
+
+#coins tr th, #coins tr td, .tbl tr th, .tbl tr td {
+	font-size: 12px;
+	border-left:1px #e5e5e5 solid; 
+}
+#coins tr th, .tbl tr th {
+	padding-bottom: 10px;
+	font-weight: bold;
+	border-bottom:1px solid #e5e5e5;
+	text-align: center;
+}
+#coins th.header, .tbl th.header, th.sml { 
+    background-image: url(/i/arrows.svg); 
+    cursor: pointer; 
+    font-weight: bold; 
+    background-repeat: no-repeat; 
+    background-position: 5px center; 
+    padding-left: 23px;
+    padding-top: 7px;
+    text-align: left;
+} 
+#coins th.headerSortUp, .tbl th.headerSortUp { 
+    background-image: url(/i/arrow_up.svg); 
+    color: #000; 
+} 
+#coins th.headerSortDown, .tbl th.headerSortDown { 
+    background-image: url(/i/arrow_down.svg); 
+    color: #000; 
+} 
+#coins tr th, .tbl tr th {
+	color: #666;
+}
+#coins tr td, .tbl tr td {
+	padding:10px 7px;
+	text-align: left;
+}
+.nobrdl {
+	border-left: none!important;
+}
+.even {
+	background-color: #f0f0f0;
+}
+.odd {
+	background-color: #fff;
+}
+
+.active {
+	background-color: #cf5c2c!important;
+	color:#fff;
+	cursor: pointer;
+}
+.active td, .active td small, .active td span, .selected td span {
+	color:#fff!important;
+}
+.coinKey {
+	font-weight:bold;
+}
+.coinName {
+	font-weight: bold;
+	padding: 30px 0 0 30px;
+	font-size: 16px;
+	color: #2c2c2c;
+}
+.coinInfo {
+	padding-top: 10px;
+	padding-left: 30px;
+	font-size: smaller;
+	color: #2c2c2c;
+}
+.cinfItem {
+	
+}
+.selected {
+	background-color: #cf5c2c!important;
+	color:#fff;
+}
+.actItem {
+	padding: 5px 5px 5px 0;
+}
+.actItem span {
+float: left;
+padding: 0 10px;
+min-width: 18%;
+text-align: left;
+}
+.actItem span.buy_act, .actItem span.sell_act {
+	width: 50px!important;
+	min-width: 50px;
+	text-align: center;
+}
+.buy_act {
+	color:green;
+} 
+
+.sell_act {
+	color: red;
+}
+.smallTbl tr th, .smallTbl tr td {
+	font-size: 10px;
+}
+#coins th.sml, .tbl th.sml, .sml {
+	font-size: 10px!important;
+	background-image: none;
+	padding-left: 5px;
+	padding-right: 5px;
+	text-align: center;
+}
+.filter {
+	/*width: 65.9%;*/
+	float: left;
+	padding-left: 7px;
+}
+.butn {
+	border: 1px #f0f0f0 solid;
+	-moz-border-radius: 6px; 
+  	border-radius: 6px; 
+	padding: 5px;
+	font-size: 10px;
+	padding-bottom: 2px;
+	cursor: pointer;
+	float: left;
+	margin-right: 10px;
+	margin-top: 5px;
+	color: #999;
+	min-height: 20px;
+	height: 25px;
+	box-shadow: 0 2px 2px rgba(0,0,0,.3);
+}
+.eye.btn_on {
+	background:url(i/noeye.svg) center center no-repeat; 
+	background-size: 20px;
+	min-height: 20px;
+	background-color: #a0a0a0;
+	float: left;
+	height: 25px;
+	width: 30px;
+}
+.eye {
+	background:url(i/eye.svg) center center no-repeat; 
+	background-size: 20px;
+	min-height: 20px;
+	float: left;
+	height: 25px;
+	width: 30px;
+}
+
+.btn_on {
+	color: #000;
+	background-color: #a0a0a0;
+}
+
+.coinKey {
+	background:url(i/coins.svg) 7px 20px no-repeat; 
+	background-size: 16px;
+	padding-left: 30px!important;
+	font-size: 16px!important;
+}
+.active .coinKey {
+	background-image:url(i/coins_w.svg);
+}
+.graph {
+	width: 250px;
+	height: 65px;
+	border: 0;
+	overflow: hidden;
+}
+</style>
+
+</head>
+
+<body>
+<div class="to_blur">
+
+<div class="main-wrap">
+
+<header class="head">
+	<div class="header__container u-container u-container--medium">
+		<a href="/dex" class="header__logo no-link is-active ">
+			<img src="/i/logo_b.png" alt="Minter" height="36" class="header__logo-image">
+			<div class="header__logo-text">Monster DEX</div>
+		</a>
+		<div class="header__user u-hidden-medium-down"><a href="/dex/trade/" class="button button--ghost-white">Trade</a></div>
+	</div>
+</header>
+
+
+
+<main class="main-content">
+
+
+<?php if(!isset($_SESSION['user'])) { ?>
+<div class="auth u-section">
+<div class="u-container u-container--medium">
+<div class="u-grid u-grid--vertical-margin">
+
+
+
+<div class="u-cell u-cell--medium--1-2">
+<div class="panel" style="height:175px; border-radius:6px">
+<div class="panel__header" style="position:relative">
+<a href="https://testnet.console.minter.network/" target="_blank" style="display:block; position:absolute; right:24px; font-size:11px; text-decoration:underline; top:17px">Register at Minter console</a>
+<h1 class="panel__header-title"><img src="/dex/i/icon-auth-sign-in.svg" alt="" role="presentation" width="40" height="40" class="panel__header-title-icon"> Sign in with username</h1>
+</div> 
+
+<form novalidate="novalidate" autocomplete="off" class="panel__section" id="byLogin" style="border-bottom:none; padding-top:5px">
+<input autocomplete="false" name="hidden" type="text" style="display:none;">
+<div class="u-grid u-grid--small u-grid--vertical-margin--small">
+
+<div class="u-cell u-cell--small--1-2">
+<input type="text" class="form-field__input" autocomplete="off" id="username" placeholder="Username" style="height:50px">
+
+</div> 
+<div class="u-cell u-cell--small--1-2">
+<input type="password" class="form-field__input" autocomplete="off" id="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;" style="height:50px">
+</div> 
+
+<div class="u-cell" align="center"><button class="button button--main button--full is-disabled"><span class="button__content" id="btnByLogin">Sign In</span></button>
+</div>
+</div>
+</form> 
+
+
+</div>
+</div> 
+                            
+
+<div class="u-cell u-cell--medium--1-2">
+<div class="panel" style="height:175px; border-radius:6px">
+
+
+<div class="panel__header">
+<h1 class="panel__header-title"><img src="/dex/i/icon-auth-sign-in.svg" alt="" role="presentation" width="40" height="40" class="panel__header-title-icon">Sign in with Mnemonic (Seed) phrase</h1>
+</div> 
+
+<form class="panel__section" autocomplete="off" id="bySeed" style="border-bottom:none; padding-top:5px">
+<input autocomplete="false" name="hidden" type="text" style="display:none;">
+<div class="u-grid u-grid--small u-grid--vertical-margin--small">
+<div class="u-cell">
+<textarea rows="1" class="form-field__input" style="overflow: hidden; overflow-wrap: break-word; font-size:12px!important; height:50px" id="seed" placeholder="Your Mnemonic (Seed) phrase"></textarea>
+</div> 
+<div class="u-cell" align="center"><button class="button button--main button--full is-disabled" id="btnBySeed">Sign In</button></div>
+
+</div>
+</form> 
+
+</div>
+</div>
+
+<div class="u-cell u-cell--medium--1-2" style="margin-right:-25%; margin-left:25%">
+<div class="panel" style="border-radius:6px;">
+
+<div class="panel__header">
+<h1 class="panel__header-title"><img src="/dex/i/icon-auth-register.svg" alt="" role="presentation" width="40" height="40" class="panel__header-title-icon"> Register with Mnemonic (Seed) phrase</h1></div>
+
+<div class="panel__section" style="border-bottom:none; padding-top:7px; padding-bottom:15px">
+<div class="u-grid u-grid--small u-grid--vertical-margin--small">
+<div class="u-cell" align="center"><button class="button button--main button--full" style="margin-right:-7px; margin-left:-7px" onclick="newGenerate()" id="btnGenerate">Click To Generate Mnemonic phrase and sign in</button></div>
+</div>
+</div>
+
+</div>
+</div>
+
+
+</div>
+</div>
+</div>
+<?php } ?>
+
+<div class="u-section u-container u-container--medium">
+<div align="center" style="padding-bottom:20px; border-bottom:1px #e5e5e5 solid; "><h1 class="h-title">Coins list</h1></div>
+
+<table width="100%" border="0" cellpadding="3" cellspacing="0" id="coins">
+	<thead>
+	<tr>
+	<th nowrap="nowrap" class="nobrdl">Coin</th>
+	<th nowrap="nowrap" align="left" class="{sorter: 'integer'}">Price, MNT</th>
+	<th nowrap="nowrap" class="{sorter: 'integer'}">Volume, MNT</th>
+	<th nowrap="nowrap">Change</th>
+	<th class="sml" width="50">Reserve Ratio, %</th>
+	<th class="sml" width="50">Delegated, %</th>
+	<th class="sml">Dynamic</th>
+	</tr>
+	</thead>
+	
+	
+	<tbody id="tbody">
+	
+	</tbody>
+</table>
+<div align="center" style="text-align:center; width:100%" id="loader"><img src="/i/loaderB.svg" /></div>
+</div>
+
+<script>
+
+function coins(t,dop) {
+if(!t) { t="Y"; }
+var dopShowStr=false;
+if(!dop) { dop = []; }
+
+
+		var items = [];
+		
+		if(t=="Y") { 
+		$("#tbody").empty();
+		$("#coins").trigger("update");
+		$("#loader").show();
+		}
+				
+			$.getJSON("/dex/ajax.php?coinSearch=1&s="+dop.join("|"), function(data) { 
+             
+             if(data.length==0) { $("#tbody").html('<div align="center" style="text-align:center; padding:40px; font-weight:bold">Coin '+$('#coinName').val().toUpperCase()+' not found!</div>'); $("#loader").hide(); return false; }
+             
+             var GLOBC=1;
+  				$.each(data, function( key, val ) {
+  				
+  					var ord = (GLOBC/2);
+   			 		if((''+ord).indexOf('.')==-1) { cls='odd'; } else { cls='even'; }
+   			 		GLOBC++;
+   			 		
+   			 		age=timeAgoNaive2(new Date(val['CREATE']['time']*1000));
+  				
+	  				items.push("<tr class='"+cls+" trShowCoin' onclick=\"window.location.href='/dex/trade/#"+key+"';\"><td nowrap=\"nowrap\" class=\"nobrdl coinKey\" data-sort=\""+key+"\">"+key+"<div style=\"padding:7px 0; font-size:12px; font-weight:normal\">"+val['INFO']['result']['name']+"</div></td><td nowrap=\"nowrap\" class=\"{sorter: 'integer'}\" data-sort=\""+val['INFO']['price']+"\">"+addCommas(val['INFO']['priceShort'],' ')+"</td><td nowrap=\"nowrap\" class=\"{sorter: 'integer'}\" data-sort=\""+val['INFO']['vol24']+"\">"+addCommas(val['INFO']['vol24'],' ')+"</td><td nowrap=\"nowrap\" class=\"{sorter: 'integer'}\" data-sort=\""+val['INFO']['priceChange24']+"\">"+(val['INFO']['priceChange24']<=0?'<span style="color:red">'+val['INFO']['priceChange24']+'%</span>':'<span style="color:green">+'+val['INFO']['priceChange24']+'%</span>')+"</td><td class='sml'>"+val['INFO']['result']['crr']+"</td><td nowrap=\"nowrap\" data-sort=\""+val['INFO']['delegatedStakeProc']+"\" class='sml'>"+val['INFO']['delegatedStakeProc']+"%</td><td align=\"center\" style=\"text-align:center\"><iframe class=\"graph\" src=\"graph.php?coin="+key+"\" width='250' height='65' frameborder='0' scrolling='no' marginwidth='0' marginheight='0'  /></td></tr>");
+	  				
+	  			});
+	  			
+	  	if(t=="N") { 
+			$("#tbody").empty();
+			$("#coins").trigger("update");
+		}
+
+	  			
+	  			$("#tbody").append(items.join( " " ));
+	  			//$("#coins").show();
+				$("#loader").hide();  
+				
+				if(items.length>0) {
+				var sorting = [[2,1]];
+				$("#coins").trigger("update");
+
+            // sort on the first column 
+            $("#coins").tablesorter(
+            	{ 
+            	headers: { 
+            	4: { 
+                	sorter: false 
+            	},
+            	4: { 
+                	sorter: false 
+            	}, 
+           		6: { 
+                	sorter: false 
+            		} 
+        		},
+            	textExtraction: function(node) { 
+            		// extract data from markup and return it  
+            		if(node.getAttribute('data-sort')) {
+            			return node.getAttribute('data-sort'); 
+            		} else {
+            			return node.innerText;
+            		}
+        		},
+        		widgets: ['zebra'] 
+    		});
+            $("#coins").trigger("sorton",[sorting]);
+            
+            }
+              						
+		});  			
+   //}
+}
+
+coins();
+
+					$(document).on("mouseenter", "#coins tr", function(event) {
+    					if($(this).parent().prop("tagName")!='THEAD' && $(this).parent().prop("tagName")!='thead') { 
+    						//$(this).add('background-color','#d4916f'); 
+    						$(this).addClass("active");
+    					}
+  					});
+  					$(document).on("mouseleave", "#coins tr", function(event) {
+    					if($(this).parent().prop("tagName")!='THEAD' && $(this).parent().prop("tagName")!='thead') {
+    						//$(this).css('background-color','transparent');
+    						$(this).removeClass("active");
+    					}
+  					});
+</script>
+
+
+
+</main>
+
+
+<footer class="footer">
+<div class="footer__container u-container u-container--medium">
+
+<img src="/dex/i/minter-logo-white.svg" alt="Minter" class="footer__logo"> 
+<div class="footer__menu">
+
+<div class="footer__menu-item"><a href="https://monsternode.net/" target="_blank" rel="nofollow noopener" class="footer__link link--hover">MonsterNode</a></div>
+<div class="footer__menu-item"><a href="tg://resolve?domain=mnstnode" target="_blank" rel="nofollow noopener" class="footer__link link--hover">MonsterNode chanel</a></div>
+<div class="footer__menu-item"><a href="tg://resolve?domain=mnstbot" target="_blank" rel="nofollow noopener" class="footer__link link--hover">MonsterNode Help Bot</a></div>
+<div class="footer__menu-item"><a href="mailto:hello@monsternode.net" target="_blank" rel="nofollow noopener" class="footer__link link--hover">hello@monsternode.net</a></div>
+
+
+</div>
+
+</div>
+</footer>
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+<script>
+
+function addCommas(nStr, del)
+{
+    nStr += '';
+    x = nStr.split('.');
+    x1 = x[0];
+    x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + del + '$2');
+    }
+    return x1 + x2;
+}
+
+var timeparts = [
+   {name: 'millenni', div: 31556736000, p: 'a', s: 'um'},
+   {name: 'centur', div: 3155673600, p: 'ies', s: 'y'},
+   {name: 'decade', div: 315567360},
+   {name: 'y', div: 31556736},
+   {name: 'm', div: 2629728},
+   {name: 'd', div: 86400},
+   {name: 'h', div: 3600},
+   {name: 'm', div: 60},
+   {name: 's', div: 1}
+];
+
+function timeAgoNaive2(comparisonDate) {
+	var ttm=comparisonDate.getTime();
+   var i = 0,
+      parts = [],
+      interval = Math.floor((new Date().getTime() - ttm) / 1000);
+      iinn=interval;
+   for ( ; interval > 0; i += 1) {
+      value = Math.floor(interval / timeparts[i].div);
+      interval = interval - (value * timeparts[i].div);
+      if (value) {
+         parts.push(value + '' + timeparts[i].name +' '+ (value !== 1 ? timeparts[i].p || '' : timeparts[i].s || ''));
+      }
+   }
+   if (parts.length === 0) { return 'now'; }
+   var ret=[];
+   //for (var x=0; x<parts.length; x++) {
+   		if(iinn>=31556736) {
+   			//console.log('Y d'+parts[x]);
+   			ret=parts[0]+parts[1];
+   		}
+   		if(iinn>=2629728) {
+   			//console.log('m d '+parts[x]);
+   			ret=parts[0]+parts[1];
+   		}
+   		if(iinn>=86400) {
+   			//console.log('d h '+parts[x]);
+   			ret=parts[0]+parts[1];
+   		}
+   		if(iinn>=3600) {
+   			//console.log('h min '+parts[x]);
+   			ret=parts[0]+parts[1];
+   		}
+   		if(iinn>=60) {
+   			//console.log('min sec '+parts[x]);
+   			ret=parts[0]+parts[1];
+   		}
+   		
+   //}
+   return ret;
+}
+
+$(document).ready(function() {
+
+$("#byLogin").submit(function() {
+
+$("#btnByLogin").html('<img src="/i/loaderB.svg" height="16" />');
+
+	var data = [];
+    data.push({name: "auth", value: 1},{name: "login", value: $('#username').val()}, {name: "password", value: SHA256(SHA256($('#password').val()))}, {name: "password1enc", value: (SHA256($('#password').val()))});
+    $.ajax({
+      type: "POST",
+      url: "/dex/ajax.php",
+      data: data,
+      dataType: "json",
+      success: function(data) {
+          if(!data['error']) {
+          	document.location = '/dex/trade/';
+          } else {
+          	alert(data['error']['message']);
+          }
+     },
+    error: function(e) {
+        console.log(e);
+    }
+	});
+return false;
+});
+
+
+$("#bySeed").submit(function() {
+
+$("#btnBySeed").html('<img src="/i/loaderB.svg" height="16" />');
+
+	var data = [];
+    data.push({name: "authBySeed", value: 1},{name: "seed", value: $('#seed').val()},{name: "FINGER", value: FINGER});
+    $.ajax({
+      type: "POST",
+      url: "/dex/ajax.php",
+      data: data,
+      success: function(data) {
+          if(data=='ERROR') {
+          	console.log(data);
+          } else {
+          	window.location = '/dex/trade/';
+          }
+     },
+    error: function(e) {
+        console.log(e);
+    }
+	});
+return false;
+});
+
+});
+
+</script>
+
+<script>
+      var FINGER;
+      var fp = new Fingerprint2();
+      fp.get(function(result, components) {
+        FINGER=result;
+      });
+
+
+function newGenerate() {
+$("#btnGenerate").html('<img src="/i/loaderB.svg" height="16" />');
+	var data = Array();
+	data.push({name: "generateNew", value: "Y"},{name: "FINGER", value: FINGER});
+    $.ajax({
+      type: "POST",
+      url: "/dex/ajax.php",
+      data: data,
+      success: function(data) {
+          if(data=='ERROR') {
+          	console.log(data);
+          } else {
+          	document.location = '/dex/trade/';
+          }
+     },
+    error: function(e) {
+        console.log(e);
+    }
+	});
+}
+</script>
+
+</body>
+</html>
